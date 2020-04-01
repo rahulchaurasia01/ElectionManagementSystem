@@ -4333,6 +4333,29 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "EmsBusinessLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "EmsRepositoryLayer": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/EmsBusinessLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EmsBusinessLayer.dll": {}
+        }
+      },
+      "EmsRepositoryLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/EmsRepositoryLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EmsRepositoryLayer.dll": {}
+        }
       }
     }
   },
@@ -11789,10 +11812,21 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "EmsBusinessLayer/1.0.0": {
+      "type": "project",
+      "path": "../EmsBusinessLayer/EmsBusinessLayer.csproj",
+      "msbuildProject": "../EmsBusinessLayer/EmsBusinessLayer.csproj"
+    },
+    "EmsRepositoryLayer/1.0.0": {
+      "type": "project",
+      "path": "../EmsRepositoryLayer/EmsRepositoryLayer.csproj",
+      "msbuildProject": "../EmsRepositoryLayer/EmsRepositoryLayer.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
+      "EmsBusinessLayer >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.1.1",
       "Microsoft.AspNetCore.Razor.Design >= 2.1.2",
       "Microsoft.NETCore.App >= 2.1.0"
@@ -11827,7 +11861,11 @@
       },
       "frameworks": {
         "netcoreapp2.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Rahul\\Documents\\Rahul\\ElectionManagementSystem\\EmsBackend\\EmsBusinessLayer\\EmsBusinessLayer.csproj": {
+              "projectPath": "C:\\Users\\Rahul\\Documents\\Rahul\\ElectionManagementSystem\\EmsBackend\\EmsBusinessLayer\\EmsBusinessLayer.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
