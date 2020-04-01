@@ -44,14 +44,14 @@ x64/
 *.log
 *.svclog
 *.scc
-BusinessLayer/bin
-BusinessLayer/obj
-CommonLayer/bin
-CommonLayer/obj
-FundooBackend/bin
-FundooBackend/obj
-RepositoryLayer/bin
-RepositoryLayer/obj
+EmsBusinessLayer/bin
+EmsBusinessLayer/obj
+EmsCommonLayer/bin
+EmsCommonLayer/obj
+EmsBackend/bin
+EmsBackend/obj
+EmsRepositoryLayer/bin
+EmsRepositoryLayer/obj
 
 # Visual C++ cache files
 ipch/
