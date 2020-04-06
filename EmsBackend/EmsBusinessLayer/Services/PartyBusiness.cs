@@ -17,6 +17,11 @@ namespace EmsBusinessLayer.Services
             _partyRepository = partyRepository;
         }
 
+        /// <summary>
+        /// I create a new Party 
+        /// </summary>
+        /// <param name="createPartyRequest">Party Name</param>
+        /// <returns>If Party is created Successfully it return Party response model else null</returns>
         public CreatePartyResponseModel CreateParty(CreatePartyRequestModel createPartyRequest)
         {
             try
@@ -31,5 +36,6 @@ namespace EmsBusinessLayer.Services
                 throw new Exception(e.Message);
             }
         }
+
     }
 }

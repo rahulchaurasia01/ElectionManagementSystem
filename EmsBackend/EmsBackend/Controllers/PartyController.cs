@@ -21,6 +21,12 @@ namespace EmsBackend.Controllers
             _partyBusiness = partyBusiness;            
         }
 
+        /// <summary>
+        /// It Create a new Party
+        /// </summary>
+        /// <param name="createPartyRequest">Party Name</param>
+        /// <returns>if Party Created Successfully, It Return Ok with status true and Data 
+        /// else with status false</returns>
         [HttpPost]
         [Route("CreateParty")]
         public IActionResult CreateParty(CreatePartyRequestModel createPartyRequest)
