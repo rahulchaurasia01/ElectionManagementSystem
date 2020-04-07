@@ -20,9 +20,13 @@ begin
 					return @PartyPresentCount
 				End
 		End
-	else if (@ActionType = 'Get')
+	else if (@ActionType = 'GetAll')
 		Begin
 			Select * from Party
+		End
+	else if (@ActionType = 'GetById')
+		Begin
+			select * from Party where PartyId = @PartyId
 		End
 	else if(@ActionType = 'Update')
 		Begin
