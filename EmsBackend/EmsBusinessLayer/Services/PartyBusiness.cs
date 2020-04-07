@@ -18,7 +18,7 @@ namespace EmsBusinessLayer.Services
         }
 
         /// <summary>
-        /// I create a new Party 
+        /// It create a new Party 
         /// </summary>
         /// <param name="createPartyRequest">Party Name</param>
         /// <returns>If Party is created Successfully it return Party response model else null</returns>
@@ -32,6 +32,63 @@ namespace EmsBusinessLayer.Services
                     return _partyRepository.CreateParty(createPartyRequest);
             }
             catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// It Delete the Party
+        /// </summary>
+        /// <param name="PartyId">PartyId</param>
+        /// <returns>It return true, if party is delete successfully or else false</returns>
+        public bool DeleteParty(int PartyId)
+        {
+            try
+            {
+                if (PartyId <= 0)
+                    return false;
+                else
+                    return _partyRepository.DeleteParty(PartyId);
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// It Return All the Party
+        /// </summary>
+        /// <returns>It Return All the Party</returns>
+        public List<PartyCreatedResponseModel> GetAllParty()
+        {
+            try
+            {
+                return _partyRepository.GetAllParty();
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// It Update the Party Name
+        /// </summary>
+        /// <param name="PartyId">Party Id</param>
+        /// <param name="updateParty">Update Party Name</param>
+        /// <returns>return updatepartyResponseModel if successfull or else null</returns>
+        public UpdatepartyResponseModel UpdateParty(int PartyId, UpdatePartyRequestModel updateParty)
+        {
+            try
+            {
+                if (PartyId <= 0 || updateParty == null)
+                    return null;
+                else
+                    return _partyRepository.UpdateParty(PartyId, updateParty);
+            }
+            catch(Exception e)
             {
                 throw new Exception(e.Message);
             }

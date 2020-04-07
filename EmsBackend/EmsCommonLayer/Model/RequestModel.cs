@@ -25,4 +25,12 @@ namespace EmsCommonLayer.Model
 
     }
 
+    /// <summary>
+    /// It's a Model for updating a party
+    /// </summary>
+    public class UpdatePartyRequestModel
+    {
+        public string Name { set; get; }
+    }
+
 }

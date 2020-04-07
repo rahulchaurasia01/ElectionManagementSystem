@@ -28,25 +28,132 @@ namespace EmsBackend.Controllers
         /// <returns>if Party Created Successfully, It Return Ok with status true and Data 
         /// else with status false</returns>
         [HttpPost]
-        [Route("CreateParty")]
         public IActionResult CreateParty(CreatePartyRequestModel createPartyRequest)
         {
             try
             {
                 bool status = false;
-                string message = "";
+                string message;
 
-                CreatePartyResponseModel data = _partyBusiness.CreateParty(createPartyRequest);
+                CreatePartyResponseModel createParty = _partyBusiness.CreateParty(createPartyRequest);
 
-                if(data != null)
+                if(createParty != null)
                 {
+                    if(createParty.ErrorResponse.ErrorStatus)
+                    {
+                        message = createParty.ErrorResponse.Message;
+                        return Ok(new { status, message });
+                    }
                     status = true;
                     message = "Party Created Successfully";
+                    PartyCreatedResponseModel data = createParty.PartyCreated;
+                    return Ok(new { status, message, data });
+                }
+                message = "Unable to Create Party";
+                return Ok(new { status, message });
+
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+        /// <summary>
+        /// It Get All the Party
+        /// </summary>
+        /// <returns>If all the party is retrieve, it return Ok with status true and Data
+        /// else with status false</returns>
+        [HttpGet]
+        public IActionResult GetAllParty()
+        {
+            try
+            {
+                bool status = false;
+                string message;
+
+                List<PartyCreatedResponseModel> data = _partyBusiness.GetAllParty();
+
+                if(data != null && data.Count > 0)
+                {
+                    status = true;
+                    message = "Here is the list of all Party";
                     return Ok(new { status, message, data });
                 }
 
+                message = "Unable to get all the party";
                 return Ok(new { status, message });
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
 
+        /// <summary>
+        /// It Update the Party Name
+        /// </summary>
+        /// <param name="PartyId">PartyId</param>
+        /// <param name="updateParty">Update Party Name</param>
+        /// <returns>If the Party name is successfully Updated, It Return Ok With status true and Data
+        /// else with status false</returns>
+        [HttpPut]
+        [Route("{PartyId}")]
+        public IActionResult UpdateParty(int PartyId, UpdatePartyRequestModel updateParty)
+        {
+            try
+            {
+                bool status = false;
+                string message;
+
+                UpdatepartyResponseModel updatePartyModel = _partyBusiness.UpdateParty(PartyId, updateParty);
+
+                if(updatePartyModel != null)
+                {
+                    if(updatePartyModel.ErrorResponse.ErrorStatus)
+                    {
+                        message = updatePartyModel.ErrorResponse.Message;
+                        return Ok(new { status, message });
+                    }
+                    status = true;
+                    message = "Party Name has Been Updated";
+                    PartyUpdatedResponseModel data = updatePartyModel.PartyUpdated;
+                    return Ok(new { status, message, data });
+
+                }
+                message = "Unable to update the Party Name";
+                return Ok(new { status, message });
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+        /// <summary>
+        /// It Delete the Party
+        /// </summary>
+        /// <param name="PartyId">Party Id</param>
+        /// <returns>If the Party is deleted Successfully, It return Ok with status True or else false</returns>
+        [HttpDelete]
+        [Route("{PartyId}")]
+        public IActionResult DeleteParty(int PartyId)
+        {
+            try
+            {
+                bool status;
+                string message;
+
+                status = _partyBusiness.DeleteParty(PartyId);
+
+                if(status)
+                {
+                    message = "Party Deleted Successfully";
+                    return Ok(new { status, message });
+                }
+
+                message = "Unable to Delete the Party";
+                return Ok(new { status, message });
             }
             catch(Exception e)
             {

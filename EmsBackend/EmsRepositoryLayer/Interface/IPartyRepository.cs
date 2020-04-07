@@ -10,5 +10,11 @@ namespace EmsRepositoryLayer.Interface
 
         CreatePartyResponseModel CreateParty(CreatePartyRequestModel createPartyRequest);
 
+        List<PartyCreatedResponseModel> GetAllParty();
+
+        UpdatepartyResponseModel UpdateParty(int PartyId, UpdatePartyRequestModel updateParty);
+
+        bool DeleteParty(int PartyId);
+
     }
 }
