@@ -1,23 +1,47 @@
-create procedure spCreateParty
-@party varchar(50)
-as
-begin
-	insert into Party(Name, CreatedAt, ModifiedAt) values(@party, GETDATE(), GETDATE())
-
-	select * from Party where PartyId = IDENT_CURRENT('Party')
-End
-
-create procedure spUpdateParty
+create procedure spParty
 @PartyId int,
-@UpdatePartyName varchar(50)
+@Name varchar(50),
+@ActionType varchar(50)
 as
 begin
-	Update Party set Name = @UpdatePartyName where PartyId = @PartyId
-End
+	if (@ActionType = 'Create')
+		Begin
+			Declare @PartyPresentCount int
 
-create procedure spDeleteParty
-@PartyId int
-as
-begin
-	Delete from Party where PartyId = @PartyId
+			select @PartyPresentCount = Count(Name) from Party where Name = @Name
+
+			if(@PartyPresentCount = 0)
+				Begin
+					insert into Party(Name, CreatedAt, ModifiedAt) values(@Name, GETDATE(), GETDATE())
+					select * from Party where PartyId = IDENT_CURRENT('Party')
+				End
+			Else
+				Begin
+					return @PartyPresentCount
+				End
+		End
+	else if (@ActionType = 'Get')
+		Begin
+			Select * from Party
+		End
+	else if(@ActionType = 'Update')
+		Begin
+			Declare @PartyNamePresentCount int
+
+			select @PartyNamePresentCount = Count(Name) from Party where Name = @Name
+
+			if(@PartyNamePresentCount = 0)
+				begin
+					Update Party set Name = @Name where PartyId = @PartyId
+					select * from Party where PartyId = @PartyId
+				End
+			else
+				begin
+					return @PartyNamePresentCount
+				End
+		End
+	else if(@ActionType = 'Delete')
+		Begin
+			Delete from Party where PartyId = @PartyId
+		End
 End
