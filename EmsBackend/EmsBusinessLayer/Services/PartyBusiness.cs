@@ -38,26 +38,6 @@ namespace EmsBusinessLayer.Services
         }
 
         /// <summary>
-        /// It Delete the Party
-        /// </summary>
-        /// <param name="PartyId">PartyId</param>
-        /// <returns>It return true, if party is delete successfully or else false</returns>
-        public bool DeleteParty(int PartyId)
-        {
-            try
-            {
-                if (PartyId <= 0)
-                    return false;
-                else
-                    return _partyRepository.DeleteParty(PartyId);
-            }
-            catch(Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }
-
-        /// <summary>
         /// It Return All the Party
         /// </summary>
         /// <returns>It Return All the Party</returns>
@@ -66,6 +46,26 @@ namespace EmsBusinessLayer.Services
             try
             {
                 return _partyRepository.GetAllParty();
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// It Return the specific party data
+        /// </summary>
+        /// <param name="PartyId">Party If</param>
+        /// <returns>Party Created Response Model</returns>
+        public PartyCreatedResponseModel GetPartyById(int PartyId)
+        {
+            try
+            {
+                if (PartyId <= 0)
+                    return null;
+                else
+                    return _partyRepository.GetPartyById(PartyId);
             }
             catch(Exception e)
             {
@@ -89,6 +89,26 @@ namespace EmsBusinessLayer.Services
                     return _partyRepository.UpdateParty(PartyId, updateParty);
             }
             catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// It Delete the Party
+        /// </summary>
+        /// <param name="PartyId">PartyId</param>
+        /// <returns>It return true, if party is delete successfully or else false</returns>
+        public bool DeleteParty(int PartyId)
+        {
+            try
+            {
+                if (PartyId <= 0)
+                    return false;
+                else
+                    return _partyRepository.DeleteParty(PartyId);
+            }
+            catch (Exception e)
             {
                 throw new Exception(e.Message);
             }

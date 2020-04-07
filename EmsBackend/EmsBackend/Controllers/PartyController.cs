@@ -91,6 +91,39 @@ namespace EmsBackend.Controllers
         }
 
         /// <summary>
+        /// Get Party Details By it's Id
+        /// </summary>
+        /// <param name="PartyId">Party Id</param>
+        /// <returns>If the party data is retrive, It return Ok with status true and data
+        /// else with status false</returns>
+        [HttpGet]
+        [Route("{PartyId}")]
+        public IActionResult GetPartyId(int PartyId)
+        {
+            try
+            {
+                bool status = false;
+                string message;
+
+                PartyCreatedResponseModel data = _partyBusiness.GetPartyById(PartyId);
+
+                if(data != null)
+                {
+                    status = true;
+                    message = "Here is the Party Details";
+                    return Ok(new { status, message, data });
+                }
+                message = "Unable to get the Party Details";
+                return Ok(new { status, message });
+
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { e.Message });
+            }
+        }
+
+        /// <summary>
         /// It Update the Party Name
         /// </summary>
         /// <param name="PartyId">PartyId</param>

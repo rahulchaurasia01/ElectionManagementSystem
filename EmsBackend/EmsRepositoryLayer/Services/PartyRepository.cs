@@ -116,7 +116,7 @@ namespace EmsRepositoryLayer.Services
                     };
                     sqlCommand.Parameters.AddWithValue("@PartyId", -1);
                     sqlCommand.Parameters.AddWithValue("@Name", "");
-                    sqlCommand.Parameters.AddWithValue("@ActionType", "Get");
+                    sqlCommand.Parameters.AddWithValue("@ActionType", "GetAll");
 
                     SqlParameter cmdExecuteSuccess = sqlCommand.Parameters.Add("@return_value", System.Data.SqlDbType.Int);
                     cmdExecuteSuccess.Direction = System.Data.ParameterDirection.ReturnValue;
@@ -144,6 +144,52 @@ namespace EmsRepositoryLayer.Services
                 }
 
                 return createParties;
+            }
+            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// It Return the specific party Data
+        /// </summary>
+        /// <param name="PartyId">Party Id</param>
+        /// <returns>It Return Party Created Response Model</returns>
+        public PartyCreatedResponseModel GetPartyById(int PartyId)
+        {
+            try
+            {
+                SqlDataReader reader;
+                PartyCreatedResponseModel createParty = null;
+
+                using (SqlConnection connection = new SqlConnection(sqlConnection))
+                {
+
+                    SqlCommand sqlCommand = new SqlCommand("spParty", connection)
+                    {
+                        CommandType = System.Data.CommandType.StoredProcedure
+                    };
+                    sqlCommand.Parameters.AddWithValue("@PartyId", PartyId);
+                    sqlCommand.Parameters.AddWithValue("@Name", "");
+                    sqlCommand.Parameters.AddWithValue("@ActionType", "GetById");
+
+                    connection.Open();
+
+                    reader = sqlCommand.ExecuteReader();
+
+                    createParty = new PartyCreatedResponseModel();
+
+                    while (reader.Read())
+                    {
+                        createParty.PartyId = Convert.ToInt32(reader[0]);
+                        createParty.Name = reader[1].ToString();
+                        createParty.CreatedAt = Convert.ToDateTime(reader[2]);
+                        createParty.ModifiedAt = Convert.ToDateTime(reader[3]);
+                    }
+                }
+
+                return createParty;
             }
             catch(Exception e)
             {
