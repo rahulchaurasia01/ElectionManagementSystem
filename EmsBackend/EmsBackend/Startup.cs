@@ -36,6 +36,12 @@ namespace EmsBackend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ems Api", Version = "v1" });
             });
 
+            services.AddTransient<IStateBusiness, StateBusiness>();
+            services.AddTransient<IStateRepository, StateRepository>();
+
+            services.AddTransient<ICityBusiness, CityBusiness>();
+            services.AddTransient<ICityRepository, CityRepository>();
+
             services.AddTransient<IPartyBusiness, PartyBusiness>();
             services.AddTransient<IPartyRepository, PartyRepository>();
 
