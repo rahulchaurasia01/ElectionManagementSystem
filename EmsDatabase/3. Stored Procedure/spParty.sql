@@ -36,7 +36,7 @@ begin
 
 			if(@PartyNamePresentCount = 0)
 				begin
-					Update Party set Name = @Name where PartyId = @PartyId
+					Update Party set Name = @Name, ModifiedAt = GETDATE() where PartyId = @PartyId
 					select * from Party where PartyId = @PartyId
 				End
 			else
