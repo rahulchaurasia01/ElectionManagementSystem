@@ -74,11 +74,19 @@ namespace EmsBackend.Controllers
 
                 List<PartyCreatedResponseModel> data = _partyBusiness.GetAllParty();
 
-                if(data != null && data.Count > 0)
+                if(data != null)
                 {
-                    status = true;
-                    message = "Here is the list of all Party";
-                    return Ok(new { status, message, data });
+                    if(data.Count == 0)
+                    {
+                        message = "No Party Data is Present";
+                        return Ok(new { status, message });
+                    }
+                    else
+                    {
+                        status = true;
+                        message = "Here is the list of all Party";
+                        return Ok(new { status, message, data });
+                    }
                 }
 
                 message = "Unable to get all the party";

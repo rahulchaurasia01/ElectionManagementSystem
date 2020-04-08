@@ -178,14 +178,17 @@ namespace EmsRepositoryLayer.Services
 
                     reader = sqlCommand.ExecuteReader();
 
-                    createParty = new PartyCreatedResponseModel();
-
-                    while (reader.Read())
+                    if(reader.HasRows)
                     {
-                        createParty.PartyId = Convert.ToInt32(reader[0]);
-                        createParty.Name = reader[1].ToString();
-                        createParty.CreatedAt = Convert.ToDateTime(reader[2]);
-                        createParty.ModifiedAt = Convert.ToDateTime(reader[3]);
+                        createParty = new PartyCreatedResponseModel();
+
+                        while (reader.Read())
+                        {
+                            createParty.PartyId = Convert.ToInt32(reader[0]);
+                            createParty.Name = reader[1].ToString();
+                            createParty.CreatedAt = Convert.ToDateTime(reader[2]);
+                            createParty.ModifiedAt = Convert.ToDateTime(reader[3]);
+                        }
                     }
                 }
 
@@ -221,7 +224,7 @@ namespace EmsRepositoryLayer.Services
                     sqlCommand.Parameters.AddWithValue("@Name", updateParty.Name);
                     sqlCommand.Parameters.AddWithValue("@ActionType", "Update");
 
-                    SqlParameter PartyPresent = sqlCommand.Parameters.Add("@PartyPresentCount", System.Data.SqlDbType.Int);
+                    SqlParameter PartyPresent = sqlCommand.Parameters.Add("@PartyNamePresentCount", System.Data.SqlDbType.Int);
                     PartyPresent.Direction = System.Data.ParameterDirection.ReturnValue;
 
                     SqlParameter cmdExecuteSuccess = sqlCommand.Parameters.Add("@return_value", System.Data.SqlDbType.Int);
@@ -230,7 +233,7 @@ namespace EmsRepositoryLayer.Services
                     connection.Open();
 
                     reader = sqlCommand.ExecuteReader();
-                    partyUpdatedSuccess = Convert.ToInt32(sqlCommand.Parameters["@PartyPresentCount"].Value);
+                    partyUpdatedSuccess = Convert.ToInt32(sqlCommand.Parameters["@PartyNamePresentCount"].Value);
                     statusCode = Convert.ToInt32(sqlCommand.Parameters["@return_Value"].Value);
 
                     if (partyUpdatedSuccess > 0)
