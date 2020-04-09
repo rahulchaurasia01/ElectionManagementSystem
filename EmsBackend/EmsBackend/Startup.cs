@@ -45,6 +45,9 @@ namespace EmsBackend
             services.AddTransient<IPartyBusiness, PartyBusiness>();
             services.AddTransient<IPartyRepository, PartyRepository>();
 
+            services.AddTransient<IConstituencyBusiness, ConstituencyBusiness>();
+            services.AddTransient<IConstituencyRepository, ConstituencyRepository>();
+
             services.AddTransient<IElectionBusiness, ElectionBusiness>();
             services.AddTransient<IElectionRepository, ElectionRepository>();
         }
