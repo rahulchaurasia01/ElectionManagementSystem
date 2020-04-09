@@ -127,16 +127,19 @@ namespace EmsRepositoryLayer.Services
                     if (statusCode == 0)
                     {
                         states = new List<StateAddResponseModel>();
-                        while (reader.Read())
+                        if (reader.HasRows)
                         {
-                            StateAddResponseModel createParty = new StateAddResponseModel
+                            while (reader.Read())
                             {
-                                StateId = Convert.ToInt32(reader[0]),
-                                Name = reader[1].ToString(),
-                                CreatedAt = Convert.ToDateTime(reader[2]),
-                                ModifiedAt = Convert.ToDateTime(reader[3])
-                            };
-                            states.Add(createParty);
+                                StateAddResponseModel createParty = new StateAddResponseModel
+                                {
+                                    StateId = Convert.ToInt32(reader[0]),
+                                    Name = reader[1].ToString(),
+                                    CreatedAt = Convert.ToDateTime(reader[2]),
+                                    ModifiedAt = Convert.ToDateTime(reader[3])
+                                };
+                                states.Add(createParty);
+                            }
                         }
                     }
                 }
