@@ -63,6 +63,18 @@ namespace EmsCommonLayer.Model
     }
 
     /// <summary>
+    /// It's a response Model when city is Updated
+    /// </summary>
+    public class UpdateCityResponseModel
+    {
+
+        public CityUpdateResponseModel CityUpdate { set; get; }
+
+        public ErrorResponseModel ErrorResponse { set; get; }
+
+    }
+
+    /// <summary>
     /// Added City Response Model
     /// </summary>
     public class CityAddResponseModel
@@ -78,6 +90,22 @@ namespace EmsCommonLayer.Model
 
         public DateTime ModifiedAt { set; get; }
 
+    }
+
+    /// <summary>
+    /// Updated City Response Model
+    /// </summary>
+    public class CityUpdateResponseModel
+    {
+        public int CityId { set; get; }
+
+        public string Name { set; get; }
+
+        public int StateId { set; get; }
+
+        public DateTime CreatedAt { set; get; }
+
+        public DateTime ModifiedAt { set; get; }
     }
 
     /// <summary>

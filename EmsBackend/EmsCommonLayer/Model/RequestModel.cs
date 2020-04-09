@@ -34,6 +34,16 @@ namespace EmsCommonLayer.Model
     }
 
     /// <summary>
+    /// It's a model for updating city to the state
+    /// </summary>
+    public class UpdateCityRequestModel
+    {
+        public string Name { set; get; }
+
+        public int StateId { set; get; }
+    }
+
+    /// <summary>
     /// It's a model for Creating a new Party
     /// </summary>
     public class CreatePartyRequestModel
