@@ -62,6 +62,27 @@ namespace EmsCommonLayer.Model
     }
 
     /// <summary>
+    /// It's a Model for Adding Constituency to the City
+    /// </summary>
+    public class AddConstituencyRequestModel
+    {
+        public string Name { set; get; }
+
+        public int CityId { set; get; }
+
+    }
+
+    /// <summary>
+    /// It's a Model for Updating Constituency to the City
+    /// </summary>
+    public class UpdateConstituencyRequestModel
+    {
+        public string Name { set; get; }
+
+        public int CityId { set; get; }
+    }
+
+    /// <summary>
     /// It's a model for PartyWise Election Result
     /// </summary>
     public class PartyWiseRequestModel

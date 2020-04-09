@@ -173,6 +173,62 @@ namespace EmsCommonLayer.Model
     }
 
     /// <summary>
+    /// It's a response Model When Constituency is Added
+    /// </summary>
+    public class AddConstituencyResponseModel
+    {
+        public ConstituencyAddResponseModel ConstituencyAdd { set; get; }
+
+        public ErrorResponseModel ErrorResponse { set; get; }
+    }
+
+    /// <summary>
+    /// It's a response Model when Constituency is Updated
+    /// </summary>
+    public class UpdateConstituencyResponseModel
+    {
+
+        public ConstituencyUpdateResponseModel ConstituencyUpdate { set; get; }
+
+        public ErrorResponseModel ErrorResponse { set; get; }
+
+    }
+
+    /// <summary>
+    /// Added Constituency Response Model
+    /// </summary>
+    public class ConstituencyAddResponseModel
+    {
+
+        public int ConstituencyId { set; get; }
+
+        public string Name { set; get; }
+
+        public int CityId { set; get; }
+
+        public DateTime CreatedAt { set; get; }
+
+        public DateTime ModifiedAt { set; get; }
+
+    }
+
+    /// <summary>
+    /// Updated Constituency Response Model
+    /// </summary>
+    public class ConstituencyUpdateResponseModel
+    {
+        public int ConstituencyId { set; get; }
+
+        public string Name { set; get; }
+
+        public int CityId { set; get; }
+
+        public DateTime CreatedAt { set; get; }
+
+        public DateTime ModifiedAt { set; get; }
+    }
+
+    /// <summary>
     /// Error Model
     /// </summary>
     public class ErrorResponseModel
