@@ -51,6 +51,9 @@ namespace EmsBackend
             services.AddTransient<ICandidateBusiness, CandidateBusiness>();
             services.AddTransient<ICandidateRepository, CandidateRepository>();
 
+            services.AddTransient<IVoteBusiness, VoteBusiness>();
+            services.AddTransient<IVoteRepository, VoteRepository>();
+
             services.AddTransient<IElectionBusiness, ElectionBusiness>();
             services.AddTransient<IElectionRepository, ElectionRepository>();
         }
@@ -61,10 +64,10 @@ namespace EmsBackend
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
-           {
-               c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ems Api v1");
-               c.RoutePrefix = string.Empty;
-           });
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ems Api v1");
+                c.RoutePrefix = string.Empty;
+            });
 
             if (env.IsDevelopment())
             {
