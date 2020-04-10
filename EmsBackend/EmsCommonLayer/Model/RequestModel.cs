@@ -104,6 +104,19 @@ namespace EmsCommonLayer.Model
     }
 
     /// <summary>
+    /// It's a Model for Adding Votes
+    /// </summary>
+    public class AddVoteRequestModel
+    {
+        public int CandidateId { set; get; }
+
+        public bool EvmVote { set; get; }
+
+        public bool PostalVote { set; get; }
+
+    }
+
+    /// <summary>
     /// It's a model for PartyWise Election Result
     /// </summary>
     public class PartyWiseRequestModel

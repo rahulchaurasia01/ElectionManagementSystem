@@ -284,6 +284,33 @@ namespace EmsCommonLayer.Model
         public DateTime ModifiedAt { set; get; }
     }
 
+    /// <summary>
+    /// It's a response Model for when Vote is Added
+    /// </summary>
+    public class AddVoteResponseModel
+    {
+        public VoteAddResponseModel VoteAdd { set; get; }
+
+        public ErrorResponseModel ErrorResponse { set; get; }
+    }
+
+    /// <summary>
+    /// Vote Add Response Model
+    /// </summary>
+    public class VoteAddResponseModel
+    {
+        public int VotesId { set; get; }
+
+        public int CandidateId { set; get; }
+
+        public bool EvmVote { set; get; }
+
+        public bool PostalVote { set; get; }
+
+        public DateTime CreatedAt { set; get; }
+
+        public DateTime ModifiedAt { set; get; }
+    }
 
     /// <summary>
     /// Error Model
