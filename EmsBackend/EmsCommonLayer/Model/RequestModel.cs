@@ -83,6 +83,27 @@ namespace EmsCommonLayer.Model
     }
 
     /// <summary>
+    /// It's a Model for Adding Candidate
+    /// </summary>
+    public class AddCandidateRequestModel
+    {
+        public string Name { set; get; }
+
+        public int ConstituencyId { set; get; }
+
+        public int PartyId { set; get; }
+    }
+
+    /// <summary>
+    /// It's a Model for updating Candidate
+    /// </summary>
+    public class UpdateCandidateRequestModel
+    {
+        public string Name { set; get; }
+
+    }
+
+    /// <summary>
     /// It's a model for PartyWise Election Result
     /// </summary>
     public class PartyWiseRequestModel

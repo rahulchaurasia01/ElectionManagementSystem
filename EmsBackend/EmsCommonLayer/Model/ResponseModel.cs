@@ -229,6 +229,63 @@ namespace EmsCommonLayer.Model
     }
 
     /// <summary>
+    /// It's a response Model when Candidae is added
+    /// </summary>
+    public class AddCandidateResponseModel
+    {
+        public CandidateAddResponseModel CandidateAdd { set; get; }
+
+        public ErrorResponseModel ErrorResponse { set; get; }
+    }
+
+    /// <summary>
+    /// It's a response Model When Candidate is Updated
+    /// </summary>
+    public class UpdateCandidateResponseModel
+    {
+        public CandidateUpdateResponseModel CandidateUpdate { set; get; }
+
+        public ErrorResponseModel ErrorResponse { set; get; }
+    }
+
+    /// <summary>
+    /// Added Candidate Response Model
+    /// </summary>
+    public class CandidateAddResponseModel
+    {
+        public int CandidateId { set; get; }
+
+        public string Name { set; get; }
+
+        public int ConstituencyId { set; get; }
+
+        public int PartyId { set; get; }
+
+        public DateTime CreatedAt { set; get; }
+
+        public DateTime ModifiedAt { set; get; }
+    }
+
+    /// <summary>
+    /// Updated Candidate Response Model
+    /// </summary>
+    public class CandidateUpdateResponseModel
+    {
+        public int CandidateId { set; get; }
+
+        public string Name { set; get; }
+
+        public int ConstituencyId { set; get; }
+
+        public int PartyId { set; get; }
+
+        public DateTime CreatedAt { set; get; }
+
+        public DateTime ModifiedAt { set; get; }
+    }
+
+
+    /// <summary>
     /// Error Model
     /// </summary>
     public class ErrorResponseModel
