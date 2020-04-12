@@ -313,6 +313,77 @@ namespace EmsCommonLayer.Model
     }
 
     /// <summary>
+    /// It's a Response Model For Viewing ConstituencyWise Election Result
+    /// </summary>
+    public class ResultConstituencyWiseResponseModel
+    {
+        public List<ConstituencyWiseResponseModel> ConstituencyWises { set; get; }
+
+        public ErrorResponseModel ErrorResponse { set; get; }
+    }
+
+    /// <summary>
+    /// ConstituencyWise Response Model
+    /// </summary>
+    public class ConstituencyWiseResponseModel
+    {
+        public string CandidateName { set; get; }
+
+        public string PartyName { set; get; }
+
+        public int EvmVote { set; get; }
+
+        public int PostalVote { set; get; }
+
+    }
+
+    /// <summary>
+    /// It's a Response Model For Viewing PartyWise Election Result
+    /// </summary>
+    public class ResultPartyWiseResponseModel
+    {
+        public PartyWiseResponseModel PartyWise { set; get; }
+
+        public ErrorResponseModel ErrorResponse { set; get; }
+    }
+
+    /// <summary>
+    /// PartyWise Response Model
+    /// </summary>
+    public class PartyWiseResponseModel
+    {
+        public string PartyName { set; get; }
+
+        public int Won { set; get; }
+
+        public int Leading { set; get; }
+    }
+
+    /// <summary>
+    /// It's a Response Model when Admin Account is Created.
+    /// </summary>
+    public class CreateAdminResponseModel
+    {
+        public AdminCreateResponseModel AdminCreate { set; get; }
+
+        public ErrorResponseModel ErrorResponse { set; get; }
+    }
+
+    /// <summary>
+    /// Admin Create Response Model
+    /// </summary>
+    public class AdminCreateResponseModel
+    {
+        public int AdminId { set; get; }
+
+        public string EmailId { set; get; }
+
+        public DateTime CreatedAt { set; get; }
+
+        public DateTime ModifiedAt { set; get; }
+    }
+
+    /// <summary>
     /// Error Model
     /// </summary>
     public class ErrorResponseModel

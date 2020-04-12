@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace EmsCommonLayer.Model
@@ -117,13 +118,48 @@ namespace EmsCommonLayer.Model
     }
 
     /// <summary>
+    /// It's a Model for ConstituencyWise ELection Result
+    /// </summary>
+    public class ConstituencyWiseRequestModel
+    {
+        [Required]
+        public string State { set; get; }
+
+        [Required]
+        public int ConstituencyId { set; get; }
+    }
+
+    /// <summary>
     /// It's a model for PartyWise Election Result
     /// </summary>
     public class PartyWiseRequestModel
     {
-
+        [Required]
         public string State { set; get; }
 
+    }
+
+    /// <summary>
+    /// It's a model For Creating Admin Account.
+    /// </summary>
+    public class CreateAdminRequestModel
+    {
+        [Required]
+        [EmailAddress(ErrorMessage = "Enter an Email Address")]
+        public string EmailId { set; get; }
+
+        [Required]
+        public string Password { set; get; }
+    }
+
+    /// <summary>
+    /// It's a model for Login Admin Account
+    /// </summary>
+    public class LoginAdminRequestModel
+    {
+        public string EmailId { set; get; }
+
+        public string Password { set; get; }
     }
 
 }
