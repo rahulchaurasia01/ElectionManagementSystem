@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmsBusinessLayer.Interface;
 using EmsCommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace EmsBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CandidateController : ControllerBase
     {
 
@@ -31,29 +33,39 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                AddCandidateResponseModel candidateResponse = _candidateBusiness.AddCandidate(addCandidate);
-
-                if (candidateResponse != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    if (candidateResponse.ErrorResponse.ErrorStatus)
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
                     {
-                        message = candidateResponse.ErrorResponse.Message;
+
+                        AddCandidateResponseModel candidateResponse = _candidateBusiness.AddCandidate(addCandidate);
+
+                        if (candidateResponse != null)
+                        {
+                            if (candidateResponse.ErrorResponse.ErrorStatus)
+                            {
+                                message = candidateResponse.ErrorResponse.Message;
+                                return Ok(new { status, message });
+                            }
+                            else
+                            {
+                                status = true;
+                                message = "Candidate Has Been Successfully Added to City.";
+                                CandidateAddResponseModel data = candidateResponse.CandidateAdd;
+                                return Ok(new { status, message, data });
+                            }
+                        }
+
+                        message = "Unable to Add Candidate.";
                         return Ok(new { status, message });
                     }
-                    else
-                    {
-                        status = true;
-                        message = "Candidate Has Been Successfully Added to City.";
-                        CandidateAddResponseModel data = candidateResponse.CandidateAdd;
-                        return Ok(new { status, message, data });
-                    }
                 }
-
-                message = "Unable to Add Candidate.";
-                return Ok(new { status, message });
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
 
             }
             catch (Exception e)
@@ -71,28 +83,38 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                List<CandidateAddResponseModel> data = _candidateBusiness.GetAllCandidate();
-
-                if (data != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    if (data.Count > 0)
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
                     {
-                        status = true;
-                        message = "Here is the list of all Candidates";
-                        return Ok(new { status, message, data });
-                    }
-                    else
-                    {
-                        message = "No Candidates Present";
+
+                        List<CandidateAddResponseModel> data = _candidateBusiness.GetAllCandidate();
+
+                        if (data != null)
+                        {
+                            if (data.Count > 0)
+                            {
+                                status = true;
+                                message = "Here is the list of all Candidates";
+                                return Ok(new { status, message, data });
+                            }
+                            else
+                            {
+                                message = "No Candidates Present";
+                                return Ok(new { status, message });
+                            }
+                        }
+
+                        message = "Unable to Fetch the Candidates";
                         return Ok(new { status, message });
                     }
                 }
-
-                message = "Unable to Fetch the Candidates";
-                return Ok(new { status, message });
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
             catch (Exception e)
             {
@@ -111,19 +133,29 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                CandidateAddResponseModel data = _candidateBusiness.GetCandidateById(CandidateId);
-                if (data != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    status = true;
-                    message = "Candidate Details has been Successfully fetched";
-                    return Ok(new { status, message, data });
-                }
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
+                    {
 
-                message = "Unable to get the specificed Candidate Details";
-                return Ok(new { status, message });
+                        CandidateAddResponseModel data = _candidateBusiness.GetCandidateById(CandidateId);
+                        if (data != null)
+                        {
+                            status = true;
+                            message = "Candidate Details has been Successfully fetched";
+                            return Ok(new { status, message, data });
+                        }
+
+                        message = "Unable to get the specificed Candidate Details";
+                        return Ok(new { status, message });
+                    }
+                }
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
             catch (Exception e)
             {
@@ -143,29 +175,38 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                UpdateCandidateResponseModel candidateResponse = _candidateBusiness.UpdateCandidate(CandidateId, updateCandidate);
-
-                if (candidateResponse != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    if (candidateResponse.ErrorResponse.ErrorStatus)
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
                     {
-                        message = candidateResponse.ErrorResponse.Message;
+                        UpdateCandidateResponseModel candidateResponse = _candidateBusiness.UpdateCandidate(CandidateId, updateCandidate);
+
+                        if (candidateResponse != null)
+                        {
+                            if (candidateResponse.ErrorResponse.ErrorStatus)
+                            {
+                                message = candidateResponse.ErrorResponse.Message;
+                                return Ok(new { status, message });
+                            }
+                            else
+                            {
+                                status = true;
+                                message = "Candidate Has Been Successfully Updated.";
+                                CandidateUpdateResponseModel data = candidateResponse.CandidateUpdate;
+                                return Ok(new { status, message, data });
+                            }
+                        }
+
+                        message = "Unable to Update the Candidate Details";
                         return Ok(new { status, message });
                     }
-                    else
-                    {
-                        status = true;
-                        message = "Candidate Has Been Successfully Updated.";
-                        CandidateUpdateResponseModel data = candidateResponse.CandidateUpdate;
-                        return Ok(new { status, message, data });
-                    }
                 }
-
-                message = "Unable to Update the Candidate Details";
-                return Ok(new { status, message });
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
 
             }
             catch (Exception e)
@@ -185,18 +226,27 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                status = _candidateBusiness.DeleteCandidate(CandidateId);
-
-                if (status)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    message = "Candidate has been Deleted Successfully";
-                    return Ok(new { status, message });
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
+                    {
+                        status = _candidateBusiness.DeleteCandidate(CandidateId);
+
+                        if (status)
+                        {
+                            message = "Candidate has been Deleted Successfully";
+                            return Ok(new { status, message });
+                        }
+                        message = "Unable to Delete the Candidate";
+                        return Ok(new { status, message });
+                    }
                 }
-                message = "Unable to Delete the Candidate";
-                return Ok(new { status, message });
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
             catch (Exception e)
             {

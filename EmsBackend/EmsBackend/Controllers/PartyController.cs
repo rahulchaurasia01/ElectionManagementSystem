@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmsBusinessLayer.Interface;
 using EmsCommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace EmsBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PartyController : ControllerBase
     {
 
@@ -32,26 +34,35 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                CreatePartyResponseModel createParty = _partyBusiness.CreateParty(createPartyRequest);
-
-                if(createParty != null)
+                if(admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    if(createParty.ErrorResponse.ErrorStatus)
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
                     {
-                        message = createParty.ErrorResponse.Message;
+                        CreatePartyResponseModel createParty = _partyBusiness.CreateParty(createPartyRequest);
+
+                        if (createParty != null)
+                        {
+                            if (createParty.ErrorResponse.ErrorStatus)
+                            {
+                                message = createParty.ErrorResponse.Message;
+                                return Ok(new { status, message });
+                            }
+                            status = true;
+                            message = "Party Created Successfully";
+                            PartyCreatedResponseModel data = createParty.PartyCreated;
+                            return Ok(new { status, message, data });
+                        }
+                        message = "Unable to Create Party";
                         return Ok(new { status, message });
                     }
-                    status = true;
-                    message = "Party Created Successfully";
-                    PartyCreatedResponseModel data = createParty.PartyCreated;
-                    return Ok(new { status, message, data });
                 }
-                message = "Unable to Create Party";
-                return Ok(new { status, message });
 
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
             catch(Exception e)
             {
@@ -69,28 +80,37 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                List<PartyCreatedResponseModel> data = _partyBusiness.GetAllParty();
-
-                if(data != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    if(data.Count == 0)
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
                     {
-                        message = "No Party Data is Present";
+
+                        List<PartyCreatedResponseModel> data = _partyBusiness.GetAllParty();
+
+                        if (data != null)
+                        {
+                            if (data.Count == 0)
+                            {
+                                message = "No Party Data is Present";
+                                return Ok(new { status, message });
+                            }
+                            else
+                            {
+                                status = true;
+                                message = "Here is the list of all Party";
+                                return Ok(new { status, message, data });
+                            }
+                        }
+                        message = "Unable to get all the party";
                         return Ok(new { status, message });
                     }
-                    else
-                    {
-                        status = true;
-                        message = "Here is the list of all Party";
-                        return Ok(new { status, message, data });
-                    }
                 }
-
-                message = "Unable to get all the party";
-                return Ok(new { status, message });
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
             catch(Exception e)
             {
@@ -110,22 +130,32 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                PartyCreatedResponseModel data = _partyBusiness.GetPartyById(PartyId);
-
-                if(data != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    status = true;
-                    message = "Here is the Party Details";
-                    return Ok(new { status, message, data });
-                }
-                message = "Unable to get the Party Details";
-                return Ok(new { status, message });
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
+                    {
 
+                        PartyCreatedResponseModel data = _partyBusiness.GetPartyById(PartyId);
+
+                        if (data != null)
+                        {
+                            status = true;
+                            message = "Here is the Party Details";
+                            return Ok(new { status, message, data });
+                        }
+                        message = "Unable to get the Party Details";
+                        return Ok(new { status, message });
+
+                    }
+                }
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(new { e.Message });
             }
@@ -144,26 +174,36 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                UpdatepartyResponseModel updatePartyModel = _partyBusiness.UpdateParty(PartyId, updateParty);
-
-                if(updatePartyModel != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    if(updatePartyModel.ErrorResponse.ErrorStatus)
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
                     {
-                        message = updatePartyModel.ErrorResponse.Message;
+
+                        UpdatepartyResponseModel updatePartyModel = _partyBusiness.UpdateParty(PartyId, updateParty);
+
+                        if (updatePartyModel != null)
+                        {
+                            if (updatePartyModel.ErrorResponse.ErrorStatus)
+                            {
+                                message = updatePartyModel.ErrorResponse.Message;
+                                return Ok(new { status, message });
+                            }
+                            status = true;
+                            message = "Party Name has Been Updated";
+                            PartyUpdatedResponseModel data = updatePartyModel.PartyUpdated;
+                            return Ok(new { status, message, data });
+
+                        }
+                        message = "Unable to update the Party Name";
                         return Ok(new { status, message });
                     }
-                    status = true;
-                    message = "Party Name has Been Updated";
-                    PartyUpdatedResponseModel data = updatePartyModel.PartyUpdated;
-                    return Ok(new { status, message, data });
-
                 }
-                message = "Unable to update the Party Name";
-                return Ok(new { status, message });
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
             catch(Exception e)
             {
@@ -182,19 +222,29 @@ namespace EmsBackend.Controllers
         {
             try
             {
-                bool status;
+                var admin = HttpContext.User;
+                bool status = false;
                 string message;
 
-                status = _partyBusiness.DeleteParty(PartyId);
-
-                if(status)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    message = "Party Deleted Successfully";
-                    return Ok(new { status, message });
-                }
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
+                    {
 
-                message = "Unable to Delete the Party";
-                return Ok(new { status, message });
+                        status = _partyBusiness.DeleteParty(PartyId);
+
+                        if (status)
+                        {
+                            message = "Party Deleted Successfully";
+                            return Ok(new { status, message });
+                        }
+
+                        message = "Unable to Delete the Party";
+                        return Ok(new { status, message });
+                    }
+                }
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
             catch(Exception e)
             {

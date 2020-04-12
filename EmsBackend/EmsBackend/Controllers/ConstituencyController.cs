@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmsBusinessLayer.Interface;
 using EmsCommonLayer.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +13,7 @@ namespace EmsBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ConstituencyController : ControllerBase
     {
 
@@ -31,29 +34,38 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                AddConstituencyResponseModel constituencyResponse = _constituencyBusiness.AddConstituency(addConstituency);
-
-                if (constituencyResponse != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    if (constituencyResponse.ErrorResponse.ErrorStatus)
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
                     {
-                        message = constituencyResponse.ErrorResponse.Message;
+                        AddConstituencyResponseModel constituencyResponse = _constituencyBusiness.AddConstituency(addConstituency);
+
+                        if (constituencyResponse != null)
+                        {
+                            if (constituencyResponse.ErrorResponse.ErrorStatus)
+                            {
+                                message = constituencyResponse.ErrorResponse.Message;
+                                return Ok(new { status, message });
+                            }
+                            else
+                            {
+                                status = true;
+                                message = "Constituency Has Been Successfully Added to City.";
+                                ConstituencyAddResponseModel data = constituencyResponse.ConstituencyAdd;
+                                return Ok(new { status, message, data });
+                            }
+                        }
+
+                        message = "Unable to Add Constituency.";
                         return Ok(new { status, message });
                     }
-                    else
-                    {
-                        status = true;
-                        message = "Constituency Has Been Successfully Added to City.";
-                        ConstituencyAddResponseModel data = constituencyResponse.ConstituencyAdd;
-                        return Ok(new { status, message, data });
-                    }
                 }
-
-                message = "Unable to Add Constituency.";
-                return Ok(new { status, message });
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
 
             }
             catch (Exception e)
@@ -71,28 +83,37 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                List<ConstituencyAddResponseModel> data = _constituencyBusiness.GetAllConstituency();
-
-                if (data != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    if (data.Count > 0)
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
                     {
-                        status = true;
-                        message = "Here is the list of all Constituencies";
-                        return Ok(new { status, message, data });
-                    }
-                    else
-                    {
-                        message = "No Constituencies Present";
+                        List<ConstituencyAddResponseModel> data = _constituencyBusiness.GetAllConstituency();
+
+                        if (data != null)
+                        {
+                            if (data.Count > 0)
+                            {
+                                status = true;
+                                message = "Here is the list of all Constituencies";
+                                return Ok(new { status, message, data });
+                            }
+                            else
+                            {
+                                message = "No Constituencies Present";
+                                return Ok(new { status, message });
+                            }
+                        }
+
+                        message = "Unable to Fetch the Constituencies";
                         return Ok(new { status, message });
                     }
                 }
-
-                message = "Unable to Fetch the Constituencies";
-                return Ok(new { status, message });
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
             catch (Exception e)
             {
@@ -111,19 +132,29 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                ConstituencyAddResponseModel data = _constituencyBusiness.GetConstituencyById(ConstituencyId);
-                if (data != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    status = true;
-                    message = "Constituency Details has been Successfully fetched";
-                    return Ok(new { status, message, data });
-                }
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
+                    {
 
-                message = "Unable to get the specificed Constituency Details";
-                return Ok(new { status, message });
+                        ConstituencyAddResponseModel data = _constituencyBusiness.GetConstituencyById(ConstituencyId);
+                        if (data != null)
+                        {
+                            status = true;
+                            message = "Constituency Details has been Successfully fetched";
+                            return Ok(new { status, message, data });
+                        }
+
+                        message = "Unable to get the specificed Constituency Details";
+                        return Ok(new { status, message });
+                    }
+                }
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
             catch (Exception e)
             {
@@ -143,29 +174,38 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                UpdateConstituencyResponseModel constituencyResponse = _constituencyBusiness.UpdateConstituency(ConstituencyId, updateConstituency);
-
-                if (constituencyResponse != null)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    if (constituencyResponse.ErrorResponse.ErrorStatus)
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
                     {
-                        message = constituencyResponse.ErrorResponse.Message;
+                        UpdateConstituencyResponseModel constituencyResponse = _constituencyBusiness.UpdateConstituency(ConstituencyId, updateConstituency);
+
+                        if (constituencyResponse != null)
+                        {
+                            if (constituencyResponse.ErrorResponse.ErrorStatus)
+                            {
+                                message = constituencyResponse.ErrorResponse.Message;
+                                return Ok(new { status, message });
+                            }
+                            else
+                            {
+                                status = true;
+                                message = "Constituency Has Been Successfully Updated.";
+                                ConstituencyUpdateResponseModel data = constituencyResponse.ConstituencyUpdate;
+                                return Ok(new { status, message, data });
+                            }
+                        }
+
+                        message = "Unable to Update the Constituency Details";
                         return Ok(new { status, message });
                     }
-                    else
-                    {
-                        status = true;
-                        message = "Constituency Has Been Successfully Updated.";
-                        ConstituencyUpdateResponseModel data = constituencyResponse.ConstituencyUpdate;
-                        return Ok(new { status, message, data });
-                    }
                 }
-
-                message = "Unable to Update the Constituency Details";
-                return Ok(new { status, message });
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
 
             }
             catch (Exception e)
@@ -185,18 +225,28 @@ namespace EmsBackend.Controllers
         {
             try
             {
+                var admin = HttpContext.User;
                 bool status = false;
                 string message;
 
-                status = _constituencyBusiness.DeleteConstituency(ConstituencyId);
-
-                if (status)
+                if (admin.HasClaim(c => c.Type == "TokenType"))
                 {
-                    message = "Constituency has been Deleted Successfully";
-                    return Ok(new { status, message });
+                    if (admin.Claims.FirstOrDefault(c => c.Type == "TokenType").Value == "Login")
+                    {
+
+                        status = _constituencyBusiness.DeleteConstituency(ConstituencyId);
+
+                        if (status)
+                        {
+                            message = "Constituency has been Deleted Successfully";
+                            return Ok(new { status, message });
+                        }
+                        message = "Unable to Delete the Constituency";
+                        return Ok(new { status, message });
+                    }
                 }
-                message = "Unable to Delete the Constituency";
-                return Ok(new { status, message });
+                message = "Invalid Token";
+                return BadRequest(new { status, message });
             }
             catch (Exception e)
             {
