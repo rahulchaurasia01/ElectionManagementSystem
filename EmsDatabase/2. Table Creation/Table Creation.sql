@@ -1,3 +1,15 @@
+Create table Admin (
+	
+	AdminId int Primary Key Identity(1,1),
+	EmailId varchar(50) not null,
+	Password nvarchar(50) not null,
+	CreatedAt DateTime not null,
+	ModifiedAt DateTime not null
+
+	Constraint UC_Admin Unique (EmailId)
+
+);
+
 Create table State (
 
 	StateId int Primary key Identity(1,1),
