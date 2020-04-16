@@ -1,0 +1,75 @@
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#">Election Management System</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <div class="navbar-nav ml-auto" *ngIf="!userLoggedIn">
+      <div class="nav-item navButton">
+        <button type="button" class="btn btn-primary" (click)="userNavigateToRegister()">
+          Register
+        </button>
+      </div>
+      <div class="nav-item">
+        <button type="button" class="btn btn-primary" (click)="userNavigatetoLogin()">
+          Admin Login
+        </button>
+      </div>
+    </div>
+    <div class="navbar-nav ml-auto" *ngIf="userLoggedIn">
+      <div class="nav-item">
+        <button type="button" class="btn btn-primary" (click)="LogAdminOut()">
+          LogOut
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container ElectionDiv">
+  <div class="row ElectionCenter">
+    <div class="ElectionActionDiv">
+      <div class="d-flex justify-content-around">
+        <div>
+          <button type="button" class="btn btn-primary ml-auto">
+            PartyWise
+          </button>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary ml-auto">
+            ConstituencyWise
+          </button>
+        </div>
+      </div>
+      <br />
+      <div class="d-flex flex-column constituencyDiv">
+        <div class="constituencyTitle">
+          <span>Constituencywise-All Candidates</span>
+        </div>
+        <div>
+          <div class="d-flex">
+            <div class="d-flex">
+              <span>Select State</span>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  State
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
