@@ -81,6 +81,14 @@ namespace EmsBackend
 
             });
 
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin());
+            });
+
             services.AddTransient<IStateBusiness, StateBusiness>();
             services.AddTransient<IStateRepository, StateRepository>();
 
@@ -122,6 +130,8 @@ namespace EmsBackend
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("AllowOrigin");
 
             app.UseMvc();
         }
