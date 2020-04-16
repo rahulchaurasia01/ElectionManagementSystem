@@ -1,0 +1,36 @@
+.container, .row {
+    height: 100%;
+    width: 100%;
+}
+
+.contentCenter {
+    justify-content: center;
+    align-items: center;
+}
+
+.loginCard {
+    width: 500px;
+    height: 400px;
+    border: 1px solid grey;
+    border-radius: 8px;
+}
+
+.loginTitle {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px 0 10px 0;
+}
+
+.loginError {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.loginForm {
+    padding: 0px 15px 0px 15px;
+}
+
+.loginButton {
+    text-align: center;
+}
