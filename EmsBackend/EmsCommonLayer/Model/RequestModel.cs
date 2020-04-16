@@ -157,6 +157,7 @@ namespace EmsCommonLayer.Model
     /// </summary>
     public class LoginAdminRequestModel
     {
+        [EmailAddress(ErrorMessage = "Enter a Valid Email-Id")]
         public string EmailId { set; get; }
 
         public string Password { set; get; }
